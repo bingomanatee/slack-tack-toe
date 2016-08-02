@@ -48,7 +48,7 @@ tap.test('Game', (suite) => {
                 game.move(-1, 0);
                 mAssertIllegal.fail('should not be accepted');
             } catch (err) {
-                mAssertIllegal.equal(err.message, 'bad row/column -1/0', 'error message from illegal move');
+                mAssertIllegal.equal(err.message, 'bad row/col -1/0', 'error message from illegal move');
             }
             mAssertIllegal.equal(game.turn, 0, 'turn not advanced');
             mAssertIllegal.equal(game.whoseTurn, 1, 'still player 1\'s turn');
@@ -61,8 +61,8 @@ tap.test('Game', (suite) => {
             mAssertGood.equal(game.turn, 1, 'advances to turn 1');
             mAssertGood.equal(game.whoseTurn, 2, 'goes to second player\'s turn');
             mAssertGood.deepEqual(game.board, [0, 0, 0,
-            1, 0, 0,
-            0, 0, 0], 'registered play on board');
+                1, 0, 0,
+                0, 0, 0], 'registered play on board');
             mAssertGood.end();
         });
 
@@ -85,7 +85,7 @@ tap.test('Game', (suite) => {
                 game.move(1, 0);
                 mAssertRepeat.fail('should not get past repeat move');
             } catch (err) {
-                mAssertRepeat.equal(err.message, 'attempt to replay row/column 1/0 by player 2',
+                mAssertRepeat.equal(err.message, 'attempt to replay row/col 1/0 by player 2',
                     'error message from repeated move');
             }
 
@@ -93,6 +93,47 @@ tap.test('Game', (suite) => {
         });
 
         mAssert.end();
+    });
+
+    suite.test('vector', (mVector) => {
+        const game = new Game('alpha', 'beta', 'gamma');
+
+        game.board = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        // creating an artificial sequence for /easy testing
+
+        mVector.deepEqual(game.getVector(0, 0, 0, 1), [1, 2, 3], 'getting a row');
+        mVector.deepEqual(game.getVector(0, 0, 1, 0), [1, 4, 7], 'getting a column');
+        mVector.deepEqual(game.getVector(2, 0, -1, 1), [7, 5, 3], 'getting an upward diagonal');
+
+        mVector.end();
+    });
+
+    suite.test('vector (with test)', (mVector) => {
+        const game = new Game('alpha', 'beta', 'gamma');
+
+        game.board = [
+            1, 2, 0,
+            2, 1, 0,
+            0, 0, 1];
+        // creating an artificial sequence for /easy testing
+
+        function samePlayer (played, r, c, val) {
+            let out = true;
+            if (!val) {
+                console.log('stopping at val 0: ');
+                out = false;
+            } else if (played.length) {
+                out = val === played[0];// all values are the same.
+            }
+            return out;
+        }
+
+        mVector.deepEqual(game.getVector(0, 0, 0, 1, samePlayer), [1], 'getting a row');
+        mVector.deepEqual(game.getVector(1, 0, 0, 1, samePlayer), [2], 'getting a row');
+        mVector.deepEqual(game.getVector(0, 0, 1, 0, samePlayer), [1], 'getting a column');
+        mVector.deepEqual(game.getVector(0, 0, 1, 1, samePlayer), [1, 1, 1], 'getting a diagonal');
+
+        mVector.end();
     });
 
     suite.end();
