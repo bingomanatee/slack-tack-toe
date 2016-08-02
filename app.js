@@ -1,9 +1,11 @@
 "use strict";
+
 const express = require('express');
 var path = require('path');
 const init = require('./initExpress');
 var routes = require('./routes/index');
 var rest = require('./routes/rest');
+const _ = require('lodash');
 
 const app = init();
 
@@ -11,6 +13,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/rest', rest);
+
+const cred = require('./auth.json');
+
+app.get('/auth', (req, res) => {
+    console.log('body props: ', req.body);
+    res.send('foo');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
