@@ -1,8 +1,11 @@
 "use strict";
+const express = require('express');
+var path = require('path');
+const init = require('./initExpress');
+var routes = require('./routes/index');
+var rest = require('./routes/rest');
 
-var init = require('./initExpress');
-
-let app = init();
+const app = init();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
