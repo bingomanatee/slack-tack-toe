@@ -120,7 +120,6 @@ tap.test('Game', (suite) => {
         function samePlayer (played, r, c, val) {
             let out = true;
             if (!val) {
-                console.log('stopping at val 0: ');
                 out = false;
             } else if (played.length) {
                 out = val === played[0];// all values are the same.
@@ -134,6 +133,72 @@ tap.test('Game', (suite) => {
         mVector.deepEqual(game.getVector(0, 0, 1, 1, samePlayer), [1, 1, 1], 'getting a diagonal');
 
         mVector.end();
+    });
+
+    suite.test('who won', (sheen) => {
+        /**
+         * tests to see if winning condition is detected.
+         */
+        sheen.test('diagonal win', (diag) => {
+            /**
+             *
+             * The issues with moving after a victory are only tested once,
+             * in the diagonal suite
+             */
+            let game = new Game();
+
+            game.move(0, 0);
+            game.move(0, 1);
+            game.move(1, 1);
+            game.move(1, 0);
+
+            diag.equal(game.whoWon, 0, 'nobody won yet');
+            game.move(2,2);
+
+            diag.equal(game.whoWon, 1, 'player 1 won');
+            diag.equal(game.turn, 4, 'stuck on turn 4');
+
+            try {
+                game.move(2, 0);
+                diag.fail('doesn\'t allow more moves');
+            } catch (err) {
+                diag.equal(err.message, 'cannot move after a winning play');
+            }
+            diag.end();
+        });
+        sheen.test('vertical win', (vert) => {
+            let game = new Game();
+
+            game.move(0, 0);
+            game.move(0, 1);
+            game.move(1, 0);
+            game.move(1, 1);
+
+            vert.equal(game.whoWon, 0, 'nobody won yet');
+            game.move(2,0);
+
+            vert.equal(game.whoWon, 1, 'player 1 won');
+            vert.equal(game.turn, 4, 'stuck on turn 4');
+            vert.end();
+        });
+
+        sheen.test('horiz win', (horiz) => {
+            let game = new Game();
+
+            game.move(0, 0);
+            game.move(1 , 0);
+            game.move(0, 1);
+            game.move(1, 1);
+
+            horiz.equal(game.whoWon, 0, 'nobody won yet');
+            game.move(0, 2);
+
+            horiz.equal(game.whoWon, 1, 'player 1 won');
+            horiz.end();
+        });
+
+
+        sheen.end('Winner!');
     });
 
     suite.end();
