@@ -15,10 +15,11 @@ app.use('/', routes);
 app.use('/rest', rest);
 
 const cred = require('./auth.json');
+const AUTH_URL = `https://slack.com/oauth/authorize?scope=channels:read and channels:write&client_id=${cred.client_id}&team=${encodeURI(cred.team)}`;
 
 app.get('/auth', (req, res) => {
     console.log('body props: ', req.body);
-    res.send('foo');
+    res.redirect(AUTH_URL);
 });
 
 // catch 404 and forward to error handler
