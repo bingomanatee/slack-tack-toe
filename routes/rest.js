@@ -20,7 +20,16 @@ router.post('/game/create', function (req, res, next) {
          res.status(400).send({error: 'unauthorized'});
     } else {
         const game = manager.createGame(props.channel_name, props.user_name);
-        res.send(game.toJSON());
+        if (game.user2) {
+res.send(` You have started a game of Tic Tac D'oh!
+  ---------------
+${game.board.toString()}
+
+you go first -- type "/ttt-move [letter] where the letter is one of the letter codes
+in the above board. 
+`)
+        } else {
+        }
     }
 });
 

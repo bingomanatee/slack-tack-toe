@@ -153,7 +153,7 @@ tap.test('Game', (suite) => {
             game.move(1, 0);
 
             diag.equal(game.whoWon, 0, 'nobody won yet');
-            game.move(2,2);
+            game.move(2, 2);
 
             diag.equal(game.whoWon, 1, 'player 1 won');
             diag.equal(game.turn, 4, 'stuck on turn 4');
@@ -175,7 +175,7 @@ tap.test('Game', (suite) => {
             game.move(1, 1);
 
             vert.equal(game.whoWon, 0, 'nobody won yet');
-            game.move(2,0);
+            game.move(2, 0);
 
             vert.equal(game.whoWon, 1, 'player 1 won');
             vert.equal(game.turn, 4, 'stuck on turn 4');
@@ -186,7 +186,7 @@ tap.test('Game', (suite) => {
             let game = new Game();
 
             game.move(0, 0);
-            game.move(1 , 0);
+            game.move(1, 0);
             game.move(0, 1);
             game.move(1, 1);
 
@@ -199,6 +199,30 @@ tap.test('Game', (suite) => {
 
 
         sheen.end('Winner!');
+    });
+
+    suite.test('toString()', (sassert) => {
+        sassert.test('empty game string', (eggsert) => {
+            let game = new Game('channel', 'u1', 'user2');
+
+            eggsert.equal(game.toString().replace(/[\n\r]/g, ','),
+                ' [ a ]  |  [ b ]  |  [ c ]  ,  ----------------------------,  [ d ]  |  [ e ]  |  [ f ]  ,  ----------------------------,  [ g ]  |  [ h ]  |  [ i ]'
+                , 'starting string');
+
+            eggsert.end();
+        });
+
+        sassert.test('empty game string', (progsert) => {
+            let game = new Game('channel', 'u1', 'user2');
+            game.board = [0, 1, 1, 0, 2, 2, 0, 0, 0];
+            progsert.equal(game.toString().replace(/[\n\r]/g, ','),
+                ' [ a ]  |  [ b ]  |  [ c ]  ,  ----------------------------,  [ d ]  |  [ e ]  |  [ f ]  ,  ----------------------------,  [ g ]  |  [ h ]  |  [ i ]'
+                , 'string of game in progress');
+
+            progsert.end();
+        });
+
+        sassert.end();
     });
 
     suite.end();
