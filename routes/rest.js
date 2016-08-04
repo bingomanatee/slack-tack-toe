@@ -8,14 +8,18 @@ const reg = new bottle.container.Registry();
 const manager = new bottle.container.Manager(reg);
 manager.createGame('sampleChannel', 'sampleUser1', 'sampleUser2');
 
+const config = require('../config.json');
+
 /* GET users listing. */
 router.post('/game/create', function (req, res, next) {
-    const props = _.pick(req.body, 'channel,user1,user2'.split(','));
+    const props = _.pick(req.body, 'channel_name,user_name,token'.split(','));
     console.log('creating game using ', req.body);
-    if (!req.body.channel) {
-        return res.status(400).send({error: 'no channel recieved'});
+    if (!props.channel_name) {
+         res.status(400).send({error: 'no channel_name'});
+    } else if (props.token !== config.token) {
+         res.status(400).send({error: 'unauthorized'});
     } else {
-        const game = manager.createGame(props.channel, props.user1, props.user2);
+        const game = manager.createGame(props.channel_name, props.user_name);
         res.send(game.toJSON());
     }
 });
