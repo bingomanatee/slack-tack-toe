@@ -11,6 +11,7 @@ manager.createGame('sampleChannel', 'sampleUser1', 'sampleUser2');
 /* GET users listing. */
 router.post('/game/create', function(req, res, next) {
     const props = _.pick(req.body, 'channel,user1,user2'.split(','));
+    console.log('creating game using ', req.body);
     const game = manager.createGame(props.channel, props.user1, props.user2);
     res.send(game.toJSON());
 });

@@ -13,7 +13,7 @@ module.exports = () => {
     app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-    app.use(favicon(path.join(__dirname, 'public', 'fav.ico')));
+    app.use(favicon(path.join(__dirname, 'public', 'images', 'fav.ico')));
 
     app.use(logger('dev'));
     app.use(bodyParser.json());
