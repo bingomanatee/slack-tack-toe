@@ -205,19 +205,34 @@ tap.test('Game', (suite) => {
         sassert.test('empty game string', (eggsert) => {
             let game = new Game('channel', 'u1', 'user2');
 
-            eggsert.equal(game.toString().replace(/[\n\r]/g, ','),
-                ' [ a ]  |  [ b ]  |  [ c ]  ,  ----------------------------,  [ d ]  |  [ e ]  |  [ f ]  ,  ----------------------------,  [ g ]  |  [ h ]  |  [ i ]'
-                , 'starting string');
+            eggsert.deepEqual(game.toString().split(/[\n\r]+/g), [
+                    ''
+                    , ' -- u1 vs. user2 --'
+                    , ' '
+                    , '  [ a ]  |  [ b ]  |  [ c ]  '
+                    , '  ----------------------------'
+                    , '  [ d ]  |  [ e ]  |  [ f ]  '
+                    , '  ----------------------------'
+                    , '  [ g ]  |  [ h ]  |  [ i ]'
+                ],
+                'starting string');
 
             eggsert.end();
         });
 
-        sassert.test('empty game string', (progsert) => {
+        sassert.test('in progress string', (progsert) => {
             let game = new Game('channel', 'u1', 'user2');
             game.board = [0, 1, 1, 0, 2, 2, 0, 0, 0];
-            progsert.equal(game.toString().replace(/[\n\r]/g, ','),
-                ' [ a ]  |  [ b ]  |  [ c ]  ,  ----------------------------,  [ d ]  |  [ e ]  |  [ f ]  ,  ----------------------------,  [ g ]  |  [ h ]  |  [ i ]'
-                , 'string of game in progress');
+            progsert.deepEqual(game.toString().split(/[\n\r]+/g), [
+                ''
+                , ' -- u1 vs. user2 --'
+                , ' '
+                , '  [ a ]  |  [u1 ]  |  [u1 ]  '
+                , '  ----------------------------'
+                , '  [ d ]  |  [use]  |  [use]  '
+                , '  ----------------------------'
+                , '  [ g ]  |  [ h ]  |  [ i ]'
+            ], 'string of game in progress');
 
             progsert.end();
         });
