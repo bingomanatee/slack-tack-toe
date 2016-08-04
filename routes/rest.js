@@ -15,21 +15,27 @@ router.post('/game/create', function (req, res, next) {
     const props = _.pick(req.body, 'channel_name,user_name,token'.split(','));
     console.log('creating game using ', req.body);
     if (!props.channel_name) {
-         res.status(400).send({error: 'no channel_name'});
+        res.status(400).send({error: 'no channel_name'});
     } else if (props.token !== config.token) {
-         res.status(400).send({error: 'unauthorized'});
+        res.status(400).send({error: 'unauthorized'});
     } else {
         const game = manager.createGame(props.channel_name, props.user_name);
-        if (game.user2) {
-res.send(` You have started a game of Tic Tac D'oh!
+        // at this point the creator is user1.
+        // @TODO: "Host mode" where two other players can play
+
+        let prompt = `${config.strings.JOIN_PROMPT}
+${config.strings.WHEN_START}`;
+        if (game.user1) {
+            if (game.user2) {
+                prompt = `${game.user1} it is your turn to play.
+${config.strings.PLAY_EXAMPLE}`;
+            }
+        }
+        res.send(`${config.strings.HAVE_STARTED}
 
 ${game.toString()}
 
-you go first -- type "/ttt-move [letter] where the letter is one of the letter codes
-in the above board. 
-`)
-        } else {
-        }
+${prompt}`);
     }
 });
 
