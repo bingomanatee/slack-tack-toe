@@ -23,8 +23,8 @@ router.post('/game/join', (req, res) => {
     } else {
         try { // will throw error if no game found -- OR if the game is in progress.
             // note -- you CAN "Join your own game" -- play solitare.
-            manager.joinGame(props.channel_name, props.user_name);
-            res.send('joined');
+            const game = manager.joinGame(props.channel_name, props.user_name);
+            res.send(config.strings.ON_JOIN.replace(/user1/g, game.user2) + game.toString());
         } catch (err) {
             res.send(err.message);
         }

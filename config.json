@@ -9,7 +9,8 @@
     "JOIN_PROMPT": "Players can join the game by '/ttt-join'",
     "WHEN_START": "When there are two players in the game, the game can start.",
     "HAVE_STARTED": "You have started a game of Tic Tac D'oh!",
-    "IN_PROGRESS": "There is already a game in progress in this channel. Perhaps in the future we will allow you to cancel a game..."
-    "NO_GAME": "You need to start a game first by entering '/ttt'."
+    "IN_PROGRESS": "There is already a game in progress in this channel. Perhaps in the future we will allow you to cancel a game...",
+    "NO_GAME": "You need to start a game first by entering '/ttt'.",
+    "ON_JOIN": "You have now joined a game with user1! user1 \n should now choose a move using '/tg [letter a-i]"
   }
 }
