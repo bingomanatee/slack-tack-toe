@@ -16,7 +16,7 @@ router.post('/game/join', (req, res) => {
     console.log('joining game using ', req.body);
     if (!props.channel_name) {
         res.status(400).send({error: 'no channel_name'});
-    } else if (props.token !== config.tokens.create) {
+    } else if (props.token !== config.tokens.join) {
         res.status(400).send({error: 'unauthorized'});
     } else if (!manager.hasGame(props.channel_name)) {
         res.send(config.strings.NO_GAME);
