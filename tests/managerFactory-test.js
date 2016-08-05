@@ -19,7 +19,8 @@ tap.test('managerFactory', (suite) => {
         return Game;
     });
 
-    // a mock registry
+    // a mock registry; note at this point the registry really is just a map instance, but if it grows bigger,
+    // we will be able to mock/stub stuff here.
     bottle.service('Registry', function () {
         return Map;
     });
@@ -76,6 +77,48 @@ tap.test('managerFactory', (suite) => {
             gAssert4.end();
         });
         gAssert.end();
+    });
+
+    suite.test('join', (jAssert) => {
+
+        // failed attempt to join game in a channel that has not been initialized
+        jAssert.test('on game that does not exist', (nAssert) => {
+            let man = new Manager(new bottle.container.Registry);
+
+            try {
+                man.joinGame('dutchman', 'foo');
+            } catch (err) {
+                nAssert.equal(err.message, 'cannot find game in channel dutchman');
+            }
+
+            nAssert.end();
+        });
+
+        // failed attempt to join a game in progress
+        jAssert.test('on game that already has a user2', (fullAssert) => {
+            let man = new Manager(new bottle.container.Registry);
+            man.createGame('dutchman', 'u1', 'u2');
+
+            try {
+                man.joinGame('dutchman', 'foo');
+            } catch (err) {
+                fullAssert.equal(err.message, 'user2 has already been selected (u2)');
+            }
+
+            fullAssert.end();
+        });
+
+        // succeeds; game slot is taken.
+        jAssert.test('on game that doesn\'t have a user2', (goodAssert) => {
+            let man = new Manager(new bottle.container.Registry);
+            let game = man.createGame('dutchman', 'u1');
+            man.joinGame('dutchman', 'foo');
+            goodAssert.equal(game.user2, 'foo', 'foo has joined');
+
+            goodAssert.end();
+        });
+
+        jAssert.end();
     });
 
     suite.end();
