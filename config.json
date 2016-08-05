@@ -11,6 +11,6 @@
     "HAVE_STARTED": "You have started a game of Tic Tac D'oh!",
     "IN_PROGRESS": "There is already a game in progress in this channel. Perhaps in the future we will allow you to cancel a game...",
     "NO_GAME": "You need to start a game first by entering '/ttt'.",
-    "ON_JOIN": "You have now joined a game with user1! user1 \n should now choose a move using '/tg [letter a-i]"
+    "ON_JOIN": "You have now joined a game with user1! user1 \n should now choose a move using '/tg [letter a-i] please *tell user1 TO GO!*"
   }
 }
