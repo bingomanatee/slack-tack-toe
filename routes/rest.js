@@ -31,6 +31,7 @@ router.post('/game/join', (req, res) => {
     }
 });
 
+
 /* POST initiate a game. */
 router.post('/game/create', function (req, res, next) {
     const props = _.pick(req.body, 'channel_name,user_name,token'.split(','));
