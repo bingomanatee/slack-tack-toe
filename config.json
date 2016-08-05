@@ -5,6 +5,7 @@
     "PLAY_EXAMPLE": "play with '/ttt-move (letter)' -- for instance '/ttt-move d`",
     "JOIN_PROMPT" : "Players can join the game by sending '/ttt-join'",
     "WHEN_START": "When there are two players in the game, the game can start.",
-    "HAVE_STARTED": "You have started a game of Tic Tac D'oh!"
+    "HAVE_STARTED": "You have started a game of Tic Tac D'oh!",
+    "IN_PROGRESS": "There is already a game in progress in this channel. Perhaps in the future we will allow you to cancel a game..."
   }
 }

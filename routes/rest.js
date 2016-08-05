@@ -18,6 +18,8 @@ router.post('/game/create', function (req, res, next) {
         res.status(400).send({error: 'no channel_name'});
     } else if (props.token !== config.token) {
         res.status(400).send({error: 'unauthorized'});
+    } else if (manager.hasGame(props.channel_name)) {
+        res.send(config.strings.IN_PROGRESS);
     } else {
         const game = manager.createGame(props.channel_name, props.user_name);
         // at this point the creator is user1.
